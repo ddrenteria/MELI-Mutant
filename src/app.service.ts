@@ -17,11 +17,12 @@ export class AppService {
           count++;
           // If we have a sequence of 4 elements increse consecutive gen sequences and reset count and last gen
           if (count === 4) {
-            console.log(last_gen);
             consecutive_gen_sequences++;
             count = 0;
             last_gen = '';
           }
+        } else {
+          count = 1;
         }
         last_gen = dna[i][j];
       }

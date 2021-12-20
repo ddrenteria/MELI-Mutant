@@ -27,17 +27,17 @@ describe('AppController', () => {
     });
   });
 
-  // describe('POST: /Mutant with mutant genomas in rows', () => {
-  //   it('should return true', () => {
-  //     const mutantDna = ['ATCGATCG', 'AAAACGAT', 'AGGTGGGG'];
-  //     expect(appController.isMutant({ dna: mutantDna })).toBe(true);
-  //   });
-  // });
+  describe('POST: /Mutant with mutant genomas in rows', () => {
+    it('should return true', () => {
+      const mutantDna = ['ATCGATCG', 'AAAACGAT', 'AGGTGGGG'];
+      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+    });
+  });
 
-  // describe('POST: /Mutant with mutant genomas in rows with two consecutive 4 genomas', () => {
-  //   it('should return true', () => {
-  //     const mutantDna = ['ATCGATCG', 'AAAAAAAA', 'AGGTGTCG'];
-  //     expect(appController.isMutant({ dna: mutantDna })).toBe(true);
-  //   });
-  // });
+  describe('POST: /Mutant with mutant genomas in rows with two consecutive 4 genomas', () => {
+    it('should return true', () => {
+      const mutantDna = ['ATCGATCG', 'AAAAAAAA', 'AGGTGTCG'];
+      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+    });
+  });
 });
