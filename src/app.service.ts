@@ -2,13 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  isMutant(dna: string[]): boolean {
-    let isMutant = false;
+  getHorizontalConsecutiveSequencesUntilTwo(dna: string[], consecutive_gen_sequences) {
     const dnaRows = dna.length;
     const dnaCols = dna[0].length;
-    let consecutive_gen_sequences = 0;
-
-    // Check horizontal
     for (let i = 0; i < dnaRows && consecutive_gen_sequences <= 1; i++) {
       let count = 0;
       let last_gen = '';
@@ -27,6 +23,18 @@ export class AppService {
         last_gen = dna[i][j];
       }
     }
+    return consecutive_gen_sequences;
+  }
+
+  isMutant(dna: string[]): boolean {
+    let isMutant = false;
+    const dnaRows = dna.length;
+    const dnaCols = dna[0].length;
+    let consecutive_gen_sequences = 0;
+
+    // Check horizontal
+    consecutive_gen_sequences = this.getHorizontalConsecutiveSequencesUntilTwo(dna, consecutive_gen_sequences);
+    
 
     if (consecutive_gen_sequences > 1) {
       isMutant = true;
