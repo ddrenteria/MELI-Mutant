@@ -20,6 +20,13 @@ describe('AppController', () => {
     });
   });
 
+  describe('POST: /Mutant with empty dna', () => {
+    it('should return false', () => {
+      const emptyDna = [];
+      expect(appController.isMutant({ dna: emptyDna })).toBe(false);
+    });
+  });
+
   describe('POST: /Mutant with human dna', () => {
     it('should return false', () => {
       const humanDna = ['ATCGATCG', 'AAAACGAT', 'AGGTGTGG', 'CCTTGGAA'];
