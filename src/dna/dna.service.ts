@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AppService {
+export class BoxesService {
   stepUpdate(
     dna: string[],
     consecutive_gen_sequences: number,
@@ -151,9 +151,5 @@ export class AppService {
       isMutant = true;
     }
     return isMutant;
-  }
-
-  getHello() {
-    return 'Hello Dago';
   }
 }
