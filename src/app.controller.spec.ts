@@ -1,3 +1,4 @@
+import { HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -20,62 +21,70 @@ describe('AppController', () => {
     });
   });
 
-  describe('POST: /Mutant with empty dna', () => {
+  describe('POST: /Mutant with empty dna',() => {
     it('should return false', () => {
       const emptyDna = [];
-      expect(appController.isMutant({ dna: emptyDna })).toBe(false);
+      try {
+        appController.isMutant({ dna: emptyDna })
+      } catch(error) {
+        expect(error.message).toBe('Forbidden');
+      }
     });
   });
 
   describe('POST: /Mutant with human dna', () => {
     it('should return false', () => {
       const humanDna = ['ATCGATCG', 'AAAACGAT', 'AGGTGTGG', 'CCTTGGAA'];
-      expect(appController.isMutant({ dna: humanDna })).toBe(false);
+      try {
+        appController.isMutant({ dna: humanDna })
+      } catch(error) {
+        expect(error.message).toBe('Forbidden');
+      }
     });
   });
 
   describe('POST: /Mutant with mutant genomas in rows', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = ['ATCGATCG', 'AAAACGAT', 'AGGTGGGG'];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant genomas in rows with two consecutive 4 genomas', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = ['ATCGATCG', 'AAAAAAAA', 'AGGTGTCG'];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant genomas in different cols', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = ['ATC', 'ATC', 'ATC', 'ATG'];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant genomas in cols with two consecutive 4 genomas', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = ['ATC', 'AGC', 'ATC', 'ATG', 'AAA', 'AGG', 'ACC', 'ATT'];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant genomas in diags from left to right in diff rows(A and C)', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = [
         "ACGTG",
         "GACGT",
         "TGACG",
         "GTGAC"
       ];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant genomas in diags from left to right in diff rows(A and C)', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = [
         "ACGTG",
         "GACGT",
@@ -83,12 +92,12 @@ describe('AppController', () => {
         "GTGAG",
         "CCCGC"
       ];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant consecutive genomas in diag from left to right', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = [
         "ACCCGTTT",
         "GAGGTTTG",
@@ -99,12 +108,12 @@ describe('AppController', () => {
         "CCCTAAAC",
         "CCCGCCAA"
       ];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant consecutive genomas one in each diag direction', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = [
         "ACCCGTTT",
         "GAGGTTTG",
@@ -115,12 +124,12 @@ describe('AppController', () => {
         "CCCTAAAC",
         "CCCGCCAT"
       ];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 
   describe('POST: /Mutant with mutant consecutive genomas in diag from rigt to left', () => {
-    it('should return true', () => {
+    it('should return Http 200-OK', () => {
       const mutantDna = [
         "ACCCGTTT",
         "GAGGTTTG",
@@ -131,7 +140,7 @@ describe('AppController', () => {
         "CTCTAAAC",
         "TCCGCCAT"
       ];
-      expect(appController.isMutant({ dna: mutantDna })).toBe(true);
+      expect(appController.isMutant({ dna: mutantDna }).statusCode).toBe(HttpStatus.OK);
     });
   });
 });
