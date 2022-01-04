@@ -1,7 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { Dna } from '../dna.entity';
 
 @Injectable()
 export class DnaService {
+  async findDna(dnaAsString: string): Promise<Dna | null> {
+    const foundDna = await Dna.findOne({ where: { dna: dnaAsString } });
+    return foundDna || null;
+  }
+
+  async registerDna(dna: string[]): Promise<Dna> {
+    const dnaAsString = dna.join('|');
+    let foundDna = await this.findDna(dnaAsString);
+
+    // if foundDna is already registered, return it
+    if (foundDna) {
+      return foundDna;
+    }
+
+    // if not, register it
+    const dnaToRegister: Dna = new Dna();
+    dnaToRegister.dna = dnaAsString;
+    dnaToRegister.isMutant = this.isMutant(dna);
+
+    const savedDna = await Dna.save(dnaToRegister);
+    // TO DO: Update counter of amount of mutant and humans to avoid having to group by on db
+    return savedDna;
+  }
+
   stepUpdate(
     dna: string[],
     consecutive_gen_sequences: number,
@@ -140,13 +165,13 @@ export class DnaService {
 
     // Check horizontal
     consecutive_gen_sequences = this.getHorizontalConsecutiveSequencesUntilTwo(dna, consecutive_gen_sequences);
-    console.log(consecutive_gen_sequences);
+    // console.log(consecutive_gen_sequences);
     consecutive_gen_sequences = this.getVerticalConsecutiveSequencesUntilTwo(dna, consecutive_gen_sequences);
-    console.log(consecutive_gen_sequences);
+    // console.log(consecutive_gen_sequences);
     consecutive_gen_sequences = this.getDiagonalLeftToRightConsecutiveSequencesUntilTwo(dna, consecutive_gen_sequences);
-    console.log(consecutive_gen_sequences);
+    // console.log(consecutive_gen_sequences);
     consecutive_gen_sequences = this.getDiagonalRightToLeftConsecutiveSequencesUntilTwo(dna, consecutive_gen_sequences);
-    console.log(consecutive_gen_sequences);
+    // console.log(consecutive_gen_sequences);
     if (consecutive_gen_sequences > 1) {
       isMutant = true;
     }

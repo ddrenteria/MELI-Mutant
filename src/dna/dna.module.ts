@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { DnaService } from './dna.service';
-import { DnaController } from './dna.controller';
+import { DnaService } from './service/dna.service';
+import { DnaController } from './controller/dna.controller';
 
 @Module({
   controllers: [DnaController],

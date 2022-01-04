@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  meli-poc-db:
+    image: mysql:5.7
+    container_name: meli-poc-db
+    command: mysqld --sql_mode=""
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: meli-poc
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    networks:
+      - meli-poc-network
+
+  meli-poc-api:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+      args:
+        user_id: ${USER_ID}
+        group_id: ${GROUP_ID}
+    container_name: meli-poc-api
+    restart: always
+    depends_on:
+      - meli-poc-db
+    ports:
+      - 3000:3000
+    volumes:
+      - ../:/app/
+    networks:
+      - meli-poc-network
+
+volumes:
+  mysql_volume:
+  npm-cache:
+    external: false
+
+networks:
+  meli-poc-network:
+    name: meli-poc-network
