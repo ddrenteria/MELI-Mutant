@@ -2,8 +2,12 @@
 const process = require('process');
 
 module.exports = {
-  type: 'postgres',
-  url: process.env.DATABASE_URL,
+  type: 'mysql',
+  host: process.env.SQL_CONNECTION_NAME,
+  port: 3306,
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: 'meli-poc',
   synchronize: false,
   dropSchema: false,
   logging: true,
