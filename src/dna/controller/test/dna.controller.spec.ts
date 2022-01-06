@@ -21,7 +21,7 @@ describe('DnaController', () => {
       controllers: [DnaController],
       providers: [{ 
         provide: DnaService,
-        useValue: { registerDna: jest.fn() } 
+        useValue: { registerDna: jest.fn(), getStats: jest.fn() } 
       }],
     }).compile();
 
@@ -51,6 +51,20 @@ describe('DnaController', () => {
       const mutantDna = ['ATCGATCG', 'AAAACGAT', 'AGGTGGGG'];
       const response = await controller.isMutant({ dna: mutantDna });
       expect(response.statusCode).toBe(HttpStatus.OK);
+    });
+  });
+
+  describe('GET: /getStats', () => {
+    it('should return stats from service', async () => {
+      jest.spyOn(service, 'getStats').mockReturnValueOnce(Promise.resolve({
+        count_mutant_dna: 1,
+        count_human_dna: 1,
+        ratio: 1
+      }));
+      const response = await controller.getStats();
+      expect(response.count_mutant_dna).toBe(1);
+      expect(response.count_human_dna).toBe(1);
+      expect(response.ratio).toBe(1);
     });
   });
 });

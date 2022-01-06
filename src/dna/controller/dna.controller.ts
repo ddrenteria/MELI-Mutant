@@ -1,11 +1,16 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { DnaService } from '../service/dna.service';
 
-@Controller('mutant')
+@Controller('')
 export class DnaController {
   constructor(private readonly dnaService: DnaService) {}
 
-  @Post()
+  @Get('getStats')
+  async getStats() {
+    return await this.dnaService.getStats();
+  }
+
+  @Post('mutant')
   async isMutant(@Body() body: { dna: string[] }) {
     let dna = await this.dnaService.registerDna(body.dna);
 
