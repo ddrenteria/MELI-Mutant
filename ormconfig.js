@@ -7,7 +7,12 @@ module.exports = {
   synchronize: false,
   dropSchema: false,
   logging: true,
-  sslmode: 'require',
+  ssl: true,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false
+    }
+  },
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/db/migrations/**/*{.ts,.js}'],
   cli: {
