@@ -23,3 +23,9 @@ $ ./start.bash
 $ docker exec -ti meli-poc-api sh
 $ npm run migration:run
 ```
+
+## Running test to get coverage
+
+```bash
+$ npm run test:cov
+```
