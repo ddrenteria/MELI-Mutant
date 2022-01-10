@@ -15,7 +15,7 @@ $ cp .env.sample .env
 ```bash
 $ cd docker
 $ chmod +x start.bash
-$ ./start.bash
+$ ./start.bash --build
 ```
 ## Running migrations
 
